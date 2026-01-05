@@ -1,0 +1,2 @@
+@echo off
+g++ main.cpp -o main.exe -I"C:\Users\Ayush\OneDrive\Desktop\SFML-3.0.2-windows-gcc-14.2.0-mingw-64-bit\SFML-3.0.2\include" -L"C:\Users\Ayush\OneDrive\Desktop\SFML-3.0.2-windows-gcc-14.2.0-mingw-64-bit\SFML-3.0.2\lib" -lsfml-audio -lsfml-graphics -lsfml-window -lsfml-system -I.

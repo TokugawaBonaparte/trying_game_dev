@@ -26,9 +26,17 @@ class base_gun{
             float delta_y_to_entity = target_pos.y - owner_pos.y ;
             float angle_formed = atan2(delta_y_to_entity, delta_x_to_entity); 
             gun_body.setRotation(radians(angle_formed));
+
+            float gun_width = gun_body.getSize().x;
+            float direction = gun_body.getScale().x;
+            // direction 1 -> width + , direction -1 -> width -
+            Vector2f muzzel_offset = {gun_width*direction, 1.5f} ;
+            Vector2f final_pos_o_bullet = gun_body.getTransform().transformPoint( muzzel_offset);
+
+
             gun_body.setPosition(owner_pos) ;
-            if((timer_for_fire.getElapsedTime().asSeconds()) >= 0.0f){ 
-                 bullet_vector.emplace_back(gun_body.getPosition(),angle_formed);// fire bullet
+            if((timer_for_fire.getElapsedTime().asSeconds()) >= 1.0f){ 
+                bullet_vector.emplace_back(final_pos_o_bullet ,angle_formed);// fire bullet
                 timer_for_fire.restart() ;// standard time
             }
         }
@@ -36,5 +44,10 @@ class base_gun{
             gun_body.setPosition(owner_pos);
             window.draw(gun_body);
         }
+        void changing_gnn_side(float scale){
+            gun_body.setScale({scale, scale});
+        }
+        
+        
 };
 #endif
