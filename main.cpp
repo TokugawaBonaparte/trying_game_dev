@@ -6,43 +6,256 @@
 #include "base_gun.hpp"
 #include "base_soldier.hpp"
 #include <optional>
+#include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
 using namespace std;
 using namespace sf;
+// // ----------------- start loading all the sprites of all soldiers of every state ---------------------- //
+// //ITALY 
+// //idle
+// Texture player_txr_loading_idle_1("assets/sprites/italy/idle/arditi_idle_1.png");
+// Texture player_txr_loading_idle_2("assets/sprites/italy/idle/arditi_idle_2.png");
+// Texture player_txr_loading_idle_3("assets/sprites/italy/idle/arditi_idle_3.png");
+// Texture player_txr_loading_idle_4("assets/sprites/italy/idle/arditi_idle_4.png");
+// Texture player_txr_loading_idle_5("assets/sprites/italy/idle/arditi_idle_5.png");
+// //walking
+// Texture player_txr_loading_walking_1("assets/sprites/italy/walking/arditi_walk_1.png");
+// Texture player_txr_loading_walking_2("assets/sprites/italy/walking/arditi_walk_2.png");
+// Texture player_txr_loading_walking_3("assets/sprites/italy/walking/arditi_walk_3.png");
+// Texture player_txr_loading_walking_4("assets/sprites/italy/walking/arditi_walk_4.png");
+// Texture player_txr_loading_walking_5("assets/sprites/italy/walking/arditi_walk_5.png");
+// //running
+// Texture player_txr_loading_running_1("assets/sprites/italy/idle/arditi_idle_1.png");
+// Texture player_txr_loading_running_2("assets/sprites/italy/idle/arditi_idle_2.png");
+// Texture player_txr_loading_running_3("assets/sprites/italy/idle/arditi_idle_3.png");
+// Texture player_txr_loading_running_4("assets/sprites/italy/idle/arditi_idle_4.png");
+// Texture player_txr_loading_running_5("assets/sprites/italy/idle/arditi_idle_5.png");
+// //standing and firing
+// Texture player_txr_loading_stand_fire_1("assets/sprites/italy/idle/arditi_idle_1.png");
+// Texture player_txr_loading_stand_fire_2("assets/sprites/italy/idle/arditi_idle_2.png");
+// Texture player_txr_loading_stand_fire_3("assets/sprites/italy/idle/arditi_idle_3.png");
+// Texture player_txr_loading_stand_fire_4("assets/sprites/italy/idle/arditi_idle_4.png");
+// Texture player_txr_loading_stand_fire_5("assets/sprites/italy/idle/arditi_idle_5.png");
+// //walking and firing
+// Texture player_txr_loading_walk_fire_1("assets/sprites/italy/idle/arditi_idle_1.png");
+// Texture player_txr_loading_walk_fire_2("assets/sprites/italy/idle/arditi_idle_2.png");
+// Texture player_txr_loading_walk_fire_3("assets/sprites/italy/idle/arditi_idle_3.png");
+// Texture player_txr_loading_walk_fire_4("assets/sprites/italy/idle/arditi_idle_4.png");
+// Texture player_txr_loading_walk_fire_5("assets/sprites/italy/idle/arditi_idle_5.png");
+// //charging
+// Texture player_txr_loading_charging_1("assets/sprites/italy/idle/arditi_idle_1.png");
+// Texture player_txr_loading_charging_2("assets/sprites/italy/idle/arditi_idle_2.png");
+// Texture player_txr_loading_charging_3("assets/sprites/italy/idle/arditi_idle_3.png");
+// Texture player_txr_loading_charging_4("assets/sprites/italy/idle/arditi_idle_4.png");
+// Texture player_txr_loading_charging_5("assets/sprites/italy/idle/arditi_idle_5.png");
+// // engaging in melee
+// Texture player_txr_loading_in_melee_1("assets/sprites/italy/idle/arditi_idle_1.png");
+// Texture player_txr_loading_in_melee_2("assets/sprites/italy/idle/arditi_idle_2.png");
+// Texture player_txr_loading_in_melee_3("assets/sprites/italy/idle/arditi_idle_3.png");
+// Texture player_txr_loading_in_melee_4("assets/sprites/italy/idle/arditi_idle_4.png");
+// Texture player_txr_loading_in_melee_5("assets/sprites/italy/idle/arditi_idle_5.png");
+// //additional sprites for running and firing
+// // dead
+// Texture player_txr_loading_dead_1 ("assets/sprites/italy/idle/arditi_idle_1.png");
+// Texture player_txr_loading_dead_2("assets/sprites/italy/idle/arditi_idle_2.png");
+// Texture player_txr_loading_dead_3("assets/sprites/italy/idle/arditi_idle_3.png");
+// Texture player_txr_loading_dead_4("assets/sprites/italy/idle/arditi_idle_4.png");
+// Texture player_txr_loading_dead_5("assets/sprites/italy/idle/arditi_idle_5.png");
+
+// // AUSTRIA - HUNGARY 
+// //idle
+// Texture enemy_txr_loading_idle_1("assets/sprites/italy/idle/arditi_idle_1.png");
+// Texture enemy_txr_loading_idle_2("assets/sprites/italy/idle/arditi_idle_2.png");
+// Texture enemy_txr_loading_idle_3("assets/sprites/italy/idle/arditi_idle_3.png");
+// Texture enemy_txr_loading_idle_4("assets/sprites/italy/idle/arditi_idle_4.png");
+// Texture enemy_txr_loading_idle_5("assets/sprites/italy/idle/arditi_idle_5.png");
+// //walking
+// Texture enemy_txr_loading_walking_1("assets/sprites/italy/idle/arditi_idle_1.png");
+// Texture enemy_txr_loading_walking_2("assets/sprites/italy/idle/arditi_idle_2.png");
+// Texture enemy_txr_loading_walking_3("assets/sprites/italy/idle/arditi_idle_3.png");
+// Texture enemy_txr_loading_walking_4("assets/sprites/italy/idle/arditi_idle_4.png");
+// Texture enemy_txr_loading_walking_5("assets/sprites/italy/idle/arditi_idle_5.png");
+// //running
+// Texture enemy_txr_loading_running_1("assets/sprites/italy/idle/arditi_idle_1.png");
+// Texture enemy_txr_loading_running_2("assets/sprites/italy/idle/arditi_idle_2.png");
+// Texture enemy_txr_loading_running_3("assets/sprites/italy/idle/arditi_idle_3.png");
+// Texture enemy_txr_loading_running_4("assets/sprites/italy/idle/arditi_idle_4.png");
+// Texture enemy_txr_loading_running_5("assets/sprites/italy/idle/arditi_idle_5.png");
+// //standing and firing
+// Texture enemy_txr_loading_stand_fire_1("assets/sprites/italy/idle/arditi_idle_1.png");
+// Texture enemy_txr_loading_stand_fire_2("assets/sprites/italy/idle/arditi_idle_2.png");
+// Texture enemy_txr_loading_stand_fire_3("assets/sprites/italy/idle/arditi_idle_3.png");
+// Texture enemy_txr_loading_stand_fire_4("assets/sprites/italy/idle/arditi_idle_4.png");
+// Texture enemy_txr_loading_stand_fire_5("assets/sprites/italy/idle/arditi_idle_5.png");
+// //walking and firing
+// Texture enemy_txr_loading_walk_fire_1("assets/sprites/italy/idle/arditi_idle_1.png");
+// Texture enemy_txr_loading_walk_fire_2("assets/sprites/italy/idle/arditi_idle_2.png");
+// Texture enemy_txr_loading_walk_fire_3("assets/sprites/italy/idle/arditi_idle_3.png");
+// Texture enemy_txr_loading_walk_fire_4("assets/sprites/italy/idle/arditi_idle_4.png");
+// Texture enemy_txr_loading_walk_fire_5("assets/sprites/italy/idle/arditi_idle_5.png");
+// //charging
+// Texture enemy_txr_loading_charging_1("assets/sprites/italy/idle/arditi_idle_1.png");
+// Texture enemy_txr_loading_charging_2("assets/sprites/italy/idle/arditi_idle_2.png");
+// Texture enemy_txr_loading_charging_3("assets/sprites/italy/idle/arditi_idle_3.png");
+// Texture enemy_txr_loading_charging_4("assets/sprites/italy/idle/arditi_idle_4.png");
+// Texture enemy_txr_loading_charging_5("assets/sprites/italy/idle/arditi_idle_5.png");
+// // engaging in melee
+// Texture enemy_txr_loading_in_melee_1("assets/sprites/italy/idle/arditi_idle_1.png");
+// Texture enemy_txr_loading_in_melee_2("assets/sprites/italy/idle/arditi_idle_2.png");
+// Texture enemy_txr_loading_in_melee_3("assets/sprites/italy/idle/arditi_idle_3.png");
+// Texture enemy_txr_loading_in_melee_4("assets/sprites/italy/idle/arditi_idle_4.png");
+// Texture enemy_txr_loading_in_melee_5("assets/sprites/italy/idle/arditi_idle_5.png");
+// //dead
+// Texture enemy_txr_loading_dead_1 ("assets/sprites/italy/idle/arditi_idle_1.png");
+// Texture enemy_txr_loading_dead_2("assets/sprites/italy/idle/arditi_idle_2.png");
+// Texture enemy_txr_loading_dead_3("assets/sprites/italy/idle/arditi_idle_3.png");
+// Texture enemy_txr_loading_dead_4("assets/sprites/italy/idle/arditi_idle_4.png");
+// Texture enemy_txr_loading_dead_5("assets/sprites/italy/idle/arditi_idle_5.png");
+
+// //
+
+
+// // MAKING SPRITES
+// // ITALY
+// vector<vector<s>>
+// // idle
+// Sprite player_txr_idle_1(player_txr_loading_idle_1);
+// Sprite player_txr_idle_2(player_txr_loading_idle_2);
+// Sprite player_txr_idle_3(player_txr_loading_idle_3);
+// Sprite player_txr_idle_4(player_txr_loading_idle_4);
+// Sprite player_txr_idle_5(player_txr_loading_idle_5);
+// // walking
+// Sprite player_txr_walking_1(player_txr_loading_walking_1);
+// Sprite player_txr_walking_2(player_txr_loading_walking_2);
+// Sprite player_txr_walking_3(player_txr_loading_walking_3);
+// Sprite player_txr_walking_4(player_txr_loading_walking_4);
+// Sprite player_txr_walking_5(player_txr_loading_walking_5);
+// // running
+// Sprite player_txr_running_1(player_txr_loading_running_1);
+// Sprite player_txr_running_2(player_txr_loading_running_2);
+// Sprite player_txr_running_3(player_txr_loading_running_3);
+// Sprite player_txr_running_4(player_txr_loading_running_4);
+// Sprite player_txr_running_5(player_txr_loading_running_5);
+
+// //standing and firing
+// Sprite player_txr_stand_fire_1(player_txr_loading_stand_fire_1);
+// Sprite player_txr_stand_fire_2(player_txr_loading_stand_fire_2);
+// Sprite player_txr_stand_fire_3(player_txr_loading_stand_fire_3);
+// Sprite player_txr_stand_fire_4(player_txr_loading_stand_fire_4);
+// Sprite player_txr_stand_fire_5(player_txr_loading_stand_fire_5);
+// //walking and firing
+// Sprite player_txr_walk_fire_1(player_txr_loading_walk_fire_1);
+// Sprite player_txr_walk_fire_2(player_txr_loading_walk_fire_2);
+// Sprite player_txr_walk_fire_3(player_txr_loading_walk_fire_3);
+// Sprite player_txr_walk_fire_4(player_txr_loading_walk_fire_4);
+// Sprite player_txr_walk_fire_5(player_txr_loading_walk_fire_5);
+// //charging
+// Sprite player_txr_charging_1(player_txr_loading_charging_1);
+// Sprite player_txr_charging_2(player_txr_loading_charging_2);
+// Sprite player_txr_charging_3(player_txr_loading_charging_3);
+// Sprite player_txr_charging_4(player_txr_loading_charging_4);
+// Sprite player_txr_charging_5(player_txr_loading_charging_5);
+// // engaging in melee
+// Sprite player_txr_in_melee_1(player_txr_loading_in_melee_1);
+// Sprite player_txr_in_melee_2(player_txr_loading_in_melee_2);
+// Sprite player_txr_in_melee_3(player_txr_loading_in_melee_3);
+// Sprite player_txr_in_melee_4(player_txr_loading_in_melee_4);
+// Sprite player_txr_in_melee_5(player_txr_loading_in_melee_5);
+// //dead
+// Sprite player_txr_dead_1(player_txr_loading_dead_1);
+// Sprite player_txr_dead_2(player_txr_loading_dead_2);
+// Sprite player_txr_dead_3(player_txr_loading_dead_3);
+// Sprite player_txr_dead_4(player_txr_loading_dead_4);
+// Sprite player_txr_dead_5(player_txr_loading_dead_5);
+
+// // AUSTRIA - HUNGARY
+// // idle
+// Sprite enemy_txr_idle_1(enemy_txr_loading_idle_1);
+// Sprite enemy_txr_idle_2(enemy_txr_loading_idle_2);
+// Sprite enemy_txr_idle_3(enemy_txr_loading_idle_3);
+// Sprite enemy_txr_idle_4(enemy_txr_loading_idle_4);
+// Sprite enemy_txr_idle_5(enemy_txr_loading_idle_5);
+// // walking
+// Sprite enemy_txr_walking_1(enemy_txr_loading_walking_1);
+// Sprite enemy_txr_walking_2(enemy_txr_loading_walking_2);
+// Sprite enemy_txr_walking_3(enemy_txr_loading_walking_3);
+// Sprite enemy_txr_walking_4(enemy_txr_loading_walking_4);
+// Sprite enemy_txr_walking_5(enemy_txr_loading_walking_5);
+// // running
+// Sprite enemy_txr_running_1(enemy_txr_loading_running_1);
+// Sprite enemy_txr_running_2(enemy_txr_loading_running_2);
+// Sprite enemy_txr_running_3(enemy_txr_loading_running_3);
+// Sprite enemy_txr_running_4(enemy_txr_loading_running_4);
+// Sprite enemy_txr_running_5(enemy_txr_loading_running_5);
+// //standing and firing
+// Sprite enemy_txr_stand_fire_1(enemy_txr_loading_stand_fire_1);
+// Sprite enemy_txr_stand_fire_2(enemy_txr_loading_stand_fire_2);
+// Sprite enemy_txr_stand_fire_3(enemy_txr_loading_stand_fire_3);
+// Sprite enemy_txr_stand_fire_4(enemy_txr_loading_stand_fire_4);
+// Sprite enemy_txr_stand_fire_5(enemy_txr_loading_stand_fire_5);
+// //walking and firing
+// Sprite enemy_txr_walk_fire_1(enemy_txr_loading_walk_fire_1);
+// Sprite enemy_txr_walk_fire_2(enemy_txr_loading_walk_fire_2);
+// Sprite enemy_txr_walk_fire_3(enemy_txr_loading_walk_fire_3);
+// Sprite enemy_txr_walk_fire_4(enemy_txr_loading_walk_fire_4);
+// Sprite enemy_txr_walk_fire_5(enemy_txr_loading_walk_fire_5);
+// //charging
+// Sprite enemy_txr_charging_1(enemy_txr_loading_walk_fire_1);
+// Sprite enemy_txr_charging_2(enemy_txr_loading_walk_fire_1);
+// Sprite enemy_txr_charging_3(enemy_txr_loading_walk_fire_1);
+// Sprite enemy_txr_charging_4(enemy_txr_loading_walk_fire_1);
+// Sprite enemy_txr_charging_5(enemy_txr_loading_walk_fire_1);
+// // engaging in melee
+// Sprite enemy_txr_in_melee_1(enemy_txr_loading_in_melee_1);
+// Sprite enemy_txr_in_melee_2(enemy_txr_loading_in_melee_2);
+// Sprite enemy_txr_in_melee_3(enemy_txr_loading_in_melee_3);
+// Sprite enemy_txr_in_melee_4(enemy_txr_loading_in_melee_4);
+// Sprite enemy_txr_in_melee_5(enemy_txr_loading_in_melee_5);
+// //dead
+// Sprite enemy_txr_dead_1(enemy_txr_loading_dead_1);
+// Sprite enemy_txr_dead_2(enemy_txr_loading_dead_2);
+// Sprite enemy_txr_dead_3(enemy_txr_loading_dead_3);
+// Sprite enemy_txr_dead_4(enemy_txr_loading_dead_4);
+// Sprite enemy_txr_dead_5(enemy_txr_loading_dead_5);
+
+// -------------------------- end of loading textures and sprites-------------------------------- //
+
 
 int main(){
     bool entity_alive = true; // TEMPO
-    Texture sample_background("C:\\Users\\Ayush\\OneDrive\\Desktop\\programming\\trying_game_dev\\assets\\background.png");
-    Sprite sample_background_1(sample_background);
+    Texture battle_background_loading("assets\\background.png");
+    Sprite battle_background(battle_background_loading);    
 
     Music main_menu_song;
     Music battle_song;
     Music victory_song;
     Music credits_song;
-    if( ! victory_song.openFromFile("C:/Users/Ayush/OneDrive/Desktop/programming/trying_game_dev/assets/music and sounds/victory.ogg")){
+    if( ! victory_song.openFromFile("assets/music and sounds/victory.ogg")){
         return -1;
     }
-    if( ! battle_song.openFromFile("C:/Users/Ayush/OneDrive/Desktop/programming/trying_game_dev/assets/music and sounds/battle.ogg")){
+    if( ! battle_song.openFromFile("assets/music and sounds/battle.ogg")){
         return -1;
     }
-    if(! main_menu_song.openFromFile("C:\\Users\\Ayush\\OneDrive\\Desktop\\programming\\trying_game_dev\\assets\\music and sounds\\main.ogg")){
+    if(! main_menu_song.openFromFile("assets\\music and sounds\\main.ogg")){
         return -1;
     }
-    if( ! credits_song.openFromFile("C:/Users/Ayush/OneDrive/Desktop/programming/trying_game_dev/assets/music and sounds/credits.ogg")){
+    if( ! credits_song.openFromFile("assets/music and sounds/credits.ogg")){
         return -1;
     }
     battle_song.setVolume(50.0f);
     main_menu_song.setLooping(true);
     main_menu_song.setVolume(50.0f);
     main_menu_song.play();
-    Clock firing_timer;// for the delay in frigin of the soldiers, otherwise you die in an instant
 
 
-    Font font("C:\\Users\\Ayush\\OneDrive\\Desktop\\programming\\trying_game_dev\\assets\\font\\adler\\adler.ttf");
-    Text main_menu_text(font);
+    Font font("assets\\font\\adler\\adler.ttf");
+    Text main_menu_text_1(font);
     Text Defeat_Screen_text(font);
     Text Victory_Screen_text(font);
 
+    Texture main_menu_bg_loading;
+    if(! main_menu_bg_loading.loadFromFile("assets\\main_menu.png")) return -1;
+    sf::Sprite main_menu_bg(main_menu_bg_loading);
     enum Game_State {Main_Menu,Battle, Victory_Screen, Defeat_Screen,Credits_Screen};
     class_player player;
     bool ply_is_alive = true;
@@ -51,10 +264,11 @@ int main(){
 
     Clock delta_clock; // IMP delta
 
-    View player_following_camera({0,0},{800,600}); //defining scope of camera
-    RenderWindow window(VideoMode({800, 600}), "Avanti Savoia");
+    View player_following_camera({0,0},{1920,1080}); //defining scope of camera
+    RenderWindow window(VideoMode({1920,1080}), "Avanti Savoia");
     window.setFramerateLimit(120);
-    FloatRect window_boundry(Vector2f{0.0f,0.0f}, Vector2f{window.getDefaultView().getSize()});
+
+    // FloatRect window_boundry(Vector2f{0.0f,0.0f}, Vector2f{window.getDefaultView().getSize()});
 
     vector<bullet> bullet_vec ; // for bullets
     vector<class_enemy> enemy_vec; // for enemeies
@@ -63,14 +277,9 @@ int main(){
         Time delta_elapsed_time = delta_clock.restart();
         delta_time = delta_elapsed_time.asSeconds();
         // if(enemy_1.hp <= 0) emy_is_alive = false;
-        if(player.hp <= 0) ply_is_alive = false;
-       
-        //Start of deletion loop and health lessning of enemy :
-        
-        // end of deletion loop and health lessening
-        
+        if(player.hp <= 0) ply_is_alive = false;        
         while(const optional<Event> event = window.pollEvent()){
-             /*runs until there is input from user
+             /*runs until there is input from user     
              waits for the OS's input so very slow for repeted things.
              used for one off tings like:
                 seeing the map, opening the menu etc.  */
@@ -90,13 +299,15 @@ int main(){
     window.clear(); // IMP.
     switch(current_status){
         case Main_Menu:
-            main_menu_text.setString("Press Enter to Go into battle");
-            main_menu_text.setCharacterSize(30);
-            main_menu_text.setFillColor(Color::White);
-            window.draw(main_menu_text);
+            player.is_soldier_alive = true;
+            window.draw(main_menu_bg);
+            main_menu_text_1.setString("AVANTI SAVOIA !");
+            main_menu_text_1.setCharacterSize(100);
+            main_menu_text_1.setFillColor(Color::Black);
+            window.draw(main_menu_text_1);
             if(Keyboard::isKeyPressed(Keyboard::Key::Enter)) {
                 // start of enemy creation loop
-                Vector2f pos_on_creation = {770,550};
+                Vector2f pos_on_creation = {2000,550};
                 for(int enemies = 1; enemies <= 5 ; enemies ++ ){
                     enemy_vec.emplace_back(class_enemy ({pos_on_creation}));
                     pos_on_creation.y -=60;
@@ -105,16 +316,17 @@ int main(){
                 current_status = Battle;
                 player.hp = 100.0f;
                 player.reset_pos();
-                firing_timer.restart(); 
             }    
             battle_song.play();
             break;
         case Battle:
             main_menu_song.stop();
-            window.draw(sample_background_1);
+            window.draw(battle_background);
             player_following_camera.setCenter({player.get_soldier_pos().x+200,player.get_soldier_pos().y - 200});
             window.setView(player_following_camera);
-            if(player.is_soldier_alive) player.display_move_fire_player(delta_time, window, bullet_vec);
+            if(player.is_soldier_alive){
+                player.display_move_fire_player(delta_time, window, bullet_vec);
+            }
             
             for(auto& a_bullet : bullet_vec ){
                     a_bullet.render_bullet(window, delta_time);
@@ -122,9 +334,11 @@ int main(){
             for(auto& enemy : enemy_vec){
                 if (enemy.is_soldier_alive){  // enemy
                     enemy.display_troop(window);
-                    if(firing_timer.getElapsedTime().asSeconds() > 7.0f){
-                        enemy.dist_base_attack_mode(window, bullet_vec,player.get_soldier_pos(),delta_time);
-                        if(enemy.emy_in_melee == true) player.take_damage(20.0f*delta_time);
+                enemy.firing_timer -= delta_time;
+                if(static_cast<float>(enemy.firing_timer <= 0)) enemy.firing_timer += 2 + (static_cast<float> (rand() %100)/100.0f);
+                if(enemy.firing_timer > 2.0f){
+                    enemy.dist_base_attack_mode(window, bullet_vec,player.get_soldier_pos(),delta_time);
+                    if(enemy.emy_in_melee == true) player.take_damage(20.0f*delta_time);
                 }
                 }
                 for(auto& bullet : bullet_vec){
@@ -148,6 +362,7 @@ int main(){
             }
             else if(player.hp <= 0) {
                 current_status = Defeat_Screen;
+                enemy_vec.clear();
             }
             break;
         case Victory_Screen:
