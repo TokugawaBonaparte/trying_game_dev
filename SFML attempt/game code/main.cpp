@@ -2,8 +2,7 @@
 #include <SFML/Window/Window.hpp>
 #include <SFML/Audio.hpp>
 #include <bits/stdc++.h>
-#include "base_gun.hpp"
-#include "base_gun.hpp"
+#include "gun.hpp"
 #include "base_soldier.hpp"
 #include <optional>
 #include <SFML/Graphics/Sprite.hpp>
@@ -274,8 +273,7 @@ int main(){
     vector<class_enemy> enemy_vec; // for enemeies
 
     while(window.isOpen()){
-        Time delta_elapsed_time = delta_clock.restart();
-        delta_time = delta_elapsed_time.asSeconds();
+        delta_time = delta_clock.getElapsedTime().asSeconds();
         // if(enemy_1.hp <= 0) emy_is_alive = false;
         if(player.hp <= 0) ply_is_alive = false;        
         while(const optional<Event> event = window.pollEvent()){
@@ -334,12 +332,13 @@ int main(){
             for(auto& enemy : enemy_vec){
                 if (enemy.is_soldier_alive){  // enemy
                     enemy.display_troop(window);
-                enemy.firing_timer -= delta_time;
-                if(static_cast<float>(enemy.firing_timer <= 0)) enemy.firing_timer += 2 + (static_cast<float> (rand() %100)/100.0f);
-                if(enemy.firing_timer > 2.0f){
-                    enemy.dist_base_attack_mode(window, bullet_vec,player.get_soldier_pos(),delta_time);
-                    if(enemy.emy_in_melee == true) player.take_damage(20.0f*delta_time);
-                }
+                    // enemy.firing_timer -= delta_time;
+                    // if(static_cast<float>(enemy.firing_timer <= 0)) enemy.firing_timer += 2 + (static_cast<float> (rand() %100)/100.0f);
+                    if(enemy.firing_clock.getElapsedTime().asSeconds() >= 2){
+                        enemy.dist_base_attack_mode(window, bullet_vec,player.get_soldier_pos(),delta_time);
+                        enemy.firing_clock.restart();
+                    }
+                    if(enemy.in_melee == true) player.take_damage(20.0f*delta_time);
                 }
                 for(auto& bullet : bullet_vec){
                     if(enemy.get_hitbox().findIntersection(bullet.get_hitbox())){
