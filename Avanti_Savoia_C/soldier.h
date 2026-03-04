@@ -2,15 +2,15 @@
 enum weapon_d_type {carbine, dagger, grenade};
 
 typedef struct{
-    Rectangle body ;
+    Rectangle body;
     float health ;
-    enum weapon_d_type weapon[3] ;
+    enum weapon_d_type weapons[3] ;
     bool in_melee_mode;
     bool is_alive; // might be removed
      
 }soldier;
 
-soldier player;
+soldier player = {{50,50,30,50},100.0f};
 soldier* ply_ptr = &player;
 
 void display_soldier( Rectangle rec, Color colour){
