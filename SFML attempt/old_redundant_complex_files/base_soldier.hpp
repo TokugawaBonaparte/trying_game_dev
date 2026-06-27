@@ -6,9 +6,8 @@
 #include <SFML/Window/Window.hpp>
 #include <gun.hpp>
 using namespace sf;
-
 enum StatesOfSoldiers {idle, walking, running, stand_firing, walk_firing, run_firing, charging, in_melee, dead};
-enum weapon {Carcano, VillarP , Dagger ,FIAT_1914, Mannlicher, Grenade};
+// enum weapon {Carcano, VillarP , Dagger ,FIAT_1914, Mannlicher, Grenade};
 class base_soldier{        
     public:
         base_soldier(){ // constructor
@@ -85,20 +84,20 @@ class class_player : public base_soldier{
 
         void display_move_fire_player(float delta_time, RenderWindow &window, std::vector<bullet> &bullet_vec){
 
-        // float min_border_x = 0.0;
-        // float max_border_x = 800;
-        // float min_border_y = 0;
-        // float max_border_y = 600;
-        // Vector2f pos = soldier_body.getPosition();
-        // if(soldier_body.getPosition().x < min_border_x) pos.x = min_border_x; 
-        // if(soldier_body.getPosition().x > max_border_x) pos.x = max_border_x; 
-        // if(soldier_body.getPosition().y < min_border_y) pos.y = min_border_y; 
-        // if(soldier_body.getPosition().y > max_border_y) pos.y = max_border_y; 
-        // soldier_body.setPosition(pos);
+            float min_border_x = 0.0;
+            float max_border_x = 800;
+            float min_border_y = 0;
+            float max_border_y = 600;
+            Vector2f pos = soldier_body.getPosition();
+            if(soldier_body.getPosition().x < min_border_x) pos.x = min_border_x; 
+            if(soldier_body.getPosition().x > max_border_x) pos.x = max_border_x; 
+            if(soldier_body.getPosition().y < min_border_y) pos.y = min_border_y; 
+            if(soldier_body.getPosition().y > max_border_y) pos.y = max_border_y; 
+            soldier_body.setPosition(pos);
 
-        float speed = 100.0f;
-        window.draw(soldier_body);
-        base_gun_object.display_gun(window,soldier_body.getPosition()); // SUBJECT TO CHANGE
+            float speed = 0.0f;
+            window.draw(soldier_body);
+            base_gun_object.display_gun(window,soldier_body.getPosition()); // SUBJECT TO CHANGE
 
         // base_gun_object.display_gun(window, soldier_body.getPosition());
         // idea - put a mode system - > right click once to enter into melee mode, where the character puts his gun on 
