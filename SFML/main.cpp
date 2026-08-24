@@ -86,7 +86,6 @@ int main(){
             //         }
             //     }
             // }       
-        }
 
     window.clear(); // IMP.
     switch(current_status){
