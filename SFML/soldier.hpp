@@ -65,7 +65,7 @@ class class_player : public base_soldier{
             soldier_body.setPosition({30,550});
             soldier_body.setFillColor(Color::Green);
         }
-        void plr_mov(RenderWindow& window, float delta_time){
+        void plr_mov(float delta_time){
             float speed = 150.0f;
             if(Keyboard::isKeyPressed((Keyboard::Key::W))){ // IMP
                 if(Keyboard::isKeyPressed(Keyboard::Key::RShift)) {
@@ -103,7 +103,7 @@ class class_enemy: public base_soldier{
     public :
         class_enemy(Vector2f set_pos_on_creation ){
             soldier_body.setPosition(set_pos_on_creation);
-            soldier_body.setFillColor(Color::Blue);
+            soldier_body.setFillColor(Color::Red);
         }
         bool emy_in_melee = false;
         float firing_timer = 0.0f;// for the delay in frigin of the soldiers, otherwise you die in an instant
