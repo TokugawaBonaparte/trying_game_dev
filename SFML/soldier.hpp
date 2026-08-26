@@ -16,6 +16,10 @@ class base_soldier{
         float hp = 100.0f;
         float damage = 10.0f;
 
+        void gravity_pull(float delta_time){
+            soldier_body.move({0,1000*delta_time});
+        }
+
         void display_soldier(RenderWindow& win){
             win.draw(soldier_body);
         }
@@ -40,12 +44,12 @@ class base_soldier{
         void fire_bullet(RenderWindow &window, std::vector<bullet> &bullet_vector, Vector2f target_pos){
             base_gun_object.gun_move_and_fire(window,bullet_vector ,target_pos ,soldier_body.getPosition());
         }
+        void move_pos(Vector2f pos){
+            soldier_body.move(pos);
+        }
         void reset_pos(){
             soldier_body.setPosition({20,550});
         }
-        // void move_soldier(float x, float y){
-        //     soldier_body.move(Vector2f(x, y));
-        // }
         Vector2f get_soldier_pos(){ // to get the real time position of the soldier_body like player
             return soldier_body.getPosition();
         }  
@@ -80,6 +84,9 @@ class class_player : public base_soldier{
                 }
                 soldier_body.move({-speed*delta_time,0.0f});
                 turn_soldier_left();
+            }
+            if(Keyboard::isKeyPressed(Keyboard::Key::Space)){
+                soldier_body.move({0.0f,-20.0f});
             }
         }
         void fire_player(float delta_time, RenderWindow &window, std::vector<bullet> &bullet_vec){

@@ -7,29 +7,22 @@
 #include <optional>
 #include <SFML/Graphics/Sprite.hpp>
 #include <SFML/Graphics/Text.hpp>
+#include "Terrain.hpp"
 using namespace std;
 using namespace sf;
 int main(){
     bool entity_alive = true; // TEMPO
     // Texture battle_background_loading("assets\\background.png");
     // Sprite battle_background(battle_background_loading);    
-
     Music main_menu_song;
     Music battle_song;
     Music victory_song;
     Music credits_song;
-    if( ! victory_song.openFromFile("assets/music and sounds/victory.ogg")){
-        return -1;
-    }
-    if( ! battle_song.openFromFile("assets/music and sounds/battle.ogg")){
-        return -1;
-    }
-    if(! main_menu_song.openFromFile("assets\\music and sounds\\main.ogg")){
-        return -1;
-    }
-    if( ! credits_song.openFromFile("assets/music and sounds/credits.ogg")){
-        return -1;
-    }
+    if( ! victory_song.openFromFile("assets/music and sounds/victory.ogg")) return -1;
+    if( ! battle_song.openFromFile("assets/music and sounds/battle.ogg")) return -1;
+    if(! main_menu_song.openFromFile("assets\\music and sounds\\main.ogg")) return -1;
+    if( ! credits_song.openFromFile("assets/music and sounds/credits.ogg")) return -1;
+
     battle_song.setVolume(50.0f);
     main_menu_song.setLooping(true);
     main_menu_song.setVolume(50.0f);
@@ -51,7 +44,9 @@ int main(){
 
     class_player player;
     float delta_time; //IMP delta
-    RectangleShape map_arr[10];
+    vector<Terrain> map_arr;
+    map_arr.reserve(11); // bcs otherwise if i want to write vector<Terrain> map_arr(10); i'd need to specify the constructor's info
+
     
 
     Clock delta_clock; // IMP delta
@@ -85,7 +80,8 @@ int main(){
             //             enemy.hp-= (50.0f);
             //         }
             //     }
-            // }       
+            // }    
+        }   
 
     window.clear(); // IMP.
     switch(current_status){
@@ -103,33 +99,35 @@ int main(){
                     enemy_vec.emplace_back(class_enemy ({pos_on_creation}));
                     pos_on_creation.x += 600;
                 }
+
                 // end of enemy creation loop
+
                 current_status = Battle;
                 player.hp = 100.0f;
-                // map creation:
-                float xaxis_platforms = 1000.0f; 
+
+                // map creation start //
+                map_arr.emplace_back( Terrain (25,575,500,40));
+                float xaxis_platforms = 525.0f; 
                 for(char i = 0; i < 10; i++){
-                    RectangleShape body;
-                    body.setFillColor(Color::White);
-                    if (i%2 != 0) {
-                        body.setSize({580,40});
-                        body.setPosition({xaxis_platforms,600});
+                    if (i%2 != 0) { // implicit way to construct object
+                        map_arr.emplace_back(Terrain (xaxis_platforms,600.0f,580.0f,40.0f)); // emplace bcs object constructed in place
                         xaxis_platforms += 580;
                     }
-                    else {
-                        body.setSize({20,10}) ;
-                        body.setPosition({xaxis_platforms,630});
-                        xaxis_platforms += 20;
+                    else { // explicit way to create object
+                        Terrain body({xaxis_platforms,630.0f,20.0f,10.0f});
+                        xaxis_platforms += 600;
+                        map_arr.push_back(body); // push_back bcs object exsists
                     }
-                    map_arr[i] = body ;
+                    // the 2 ways to create object shown above are just for fun and educational purpouse.
                 }
+                //---map creation stop---//
                 player.reset_pos(); // 20,550
+                battle_song.play();
             }    
-            battle_song.play();
             break;
         case Battle:
             main_menu_song.stop();
-            for(char i = 0; i<10; i++) window.draw(map_arr[i]);
+            for(char i = 0; i<=10; i++) map_arr[i].display_terrain(window);
             // window.draw(battle_background);
 
             //---CODE CONCERNED WITH PLAYER START---//
@@ -137,9 +135,10 @@ int main(){
             window.setView(player_following_camera);
 
             if(player.is_soldier_alive){
+                player.gravity_pull(delta_time);
                 player.plr_mov(delta_time);
                 player.fire_player(delta_time, window, bullet_vec);
-                player.display_soldier(window);                
+                player.display_soldier(window);   
             }      
             //---CODE CONCERNED WITH PLAYER END---//
 
@@ -152,6 +151,7 @@ int main(){
                     emy.is_soldier_alive = false;
                 }
                 else if(emy.is_soldier_alive){
+                    emy.gravity_pull(delta_time);
                     emy.dist_base_attack_mode(window, bullet_vec,player.get_soldier_pos(),delta_time);
                     if(emy.emy_in_melee == true) player.hp -= (20.0f*delta_time);
                     emy.display_troop_gun(window);
@@ -162,6 +162,14 @@ int main(){
             // }
             //---CODE CONCERNED WITH ENEMY END ---//
             for(class_enemy& emy : enemy_vec){
+
+                //---terrain check for emy and plyr start---//
+                for(char i = 0; i<=10; i++) {
+                    map_arr[i].collision_with_soldier(player,delta_time);
+                    map_arr[i].collision_with_soldier(emy,delta_time);
+                }
+                //---terrain check for emy and plyr start---//
+
                 for(bullet& bullet : bullet_vec){
                     if(emy.get_hitbox().findIntersection(bullet.get_hitbox())){
                         bullet.did_it_hit = true;
