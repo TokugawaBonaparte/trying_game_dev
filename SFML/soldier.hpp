@@ -17,8 +17,6 @@ class base_soldier{
         float v_X = 0;
         float v_Y = 0;
 
-        void gravity_pull(float delta_time);
-
         void display_soldier(RenderWindow& win);
         
         void turn_soldier_right();

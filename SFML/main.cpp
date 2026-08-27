@@ -64,7 +64,8 @@ int main(){
         Time delta_elapsed_time = delta_clock.restart();
         delta_time = delta_elapsed_time.asSeconds();
         // if(enemy_1.hp <= 0) emy_is_alive = false;
-        if(player.hp <= 0) player.is_soldier_alive = false;        
+        if(player.hp <= 0) player.is_soldier_alive = false;   
+             
         while(const optional<Event> event = window.pollEvent()){
              /*runs until there is input from user     
              waits for the OS's input so very slow for repeted things.
@@ -73,6 +74,9 @@ int main(){
             if (event -> is<Event::Closed>()){
                 window.close();
                 }  
+            if(Keyboard::isKeyPressed(Keyboard::Key::Space)){
+                    player.v_Y -= 300*delta_time;
+                }
             // if((Mouse::isButtonPressed(Mouse::Button::Right)) && (player.soldier_body_colour() == Color::Green)){
             //     player.melee();
             //     for(auto& enemy : enemy_vec){

@@ -12,10 +12,6 @@ base_soldier::base_soldier(){ // constructor
     soldier_body.setSize(Vector2f(20,50));
 }
 
-void  base_soldier::gravity_pull(float delta_time){
-    soldier_body.move({0,1*delta_time});
-}
-
 void base_soldier::display_soldier(RenderWindow& win){
     win.draw(soldier_body);
 }
@@ -75,9 +71,8 @@ void class_player::plr_mov(float delta_time){
         soldier_body.move({-speed*delta_time,0.0f});
         turn_soldier_left();
     }
-    if(Keyboard::isKeyPressed(Keyboard::Key::Space) && on_ground ){
-        soldier_body.move({0.0f,-500.0f*delta_time});
-    }
+
+    soldier_body.move({0,v_Y});
 }
 void class_player:: fire_player(float delta_time, RenderWindow &window, std::vector<bullet> &bullet_vec){
     base_gun_object.display_gun(window,soldier_body.getPosition()); // SUBJECT TO CHANGE
