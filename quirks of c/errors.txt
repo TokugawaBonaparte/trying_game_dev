@@ -1,0 +1,2 @@
+1 - said 'expected an expression':
+happened because curly brace syntax or designated initializer can only be used along with variable declaration. here, the variable enemies is already declared and after its declaration, C got confused about the type of {information inside...}. we need to make a compound literal ie cast the type of the braces.
