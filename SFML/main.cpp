@@ -106,70 +106,64 @@ int main(){
                 player.hp = 100.0f;
 
                 // map creation start //
-                map_arr.emplace_back( Terrain (25,575,500,40));
-                float xaxis_platforms = 525.0f; 
+                map_arr.emplace_back( Terrain (20,600,980,100));
+                float xaxis_platforms = 1000.0f; 
                 for(char i = 0; i < 10; i++){
                     if (i%2 != 0) { // implicit way to construct object
-                        map_arr.emplace_back(Terrain (xaxis_platforms,600.0f,580.0f,40.0f)); // emplace bcs object constructed in place
+                        map_arr.emplace_back(Terrain (xaxis_platforms,600.0f,580.0f,100.0f)); // emplace bcs object constructed in place
                         xaxis_platforms += 580;
                     }
                     else { // explicit way to create object
                         Terrain body({xaxis_platforms,630.0f,20.0f,10.0f});
-                        xaxis_platforms += 600;
+                        xaxis_platforms += 20;
                         map_arr.push_back(body); // push_back bcs object exsists
                     }
                     // the 2 ways to create object shown above are just for fun and educational purpouse.
                 }
                 //---map creation stop---//
-                player.reset_pos(); // 20,550
+                player.reset_pos(); // 20,600
                 battle_song.play();
             }    
             break;
         case Battle:
             main_menu_song.stop();
+
             for(char i = 0; i<=10; i++) map_arr[i].display_terrain(window);
-            // window.draw(battle_background);
 
             //---CODE CONCERNED WITH PLAYER START---//
             player_following_camera.setCenter({player.get_soldier_pos().x+200,player.get_soldier_pos().y - 200});
             window.setView(player_following_camera);
-
             if(player.is_soldier_alive){
-                player.gravity_pull(delta_time);
                 player.plr_mov(delta_time);
                 player.fire_player(delta_time, window, bullet_vec);
-                player.display_soldier(window);   
+                player.display_soldier(window);  
             }      
             //---CODE CONCERNED WITH PLAYER END---//
 
-
-
             //---CODE CONCERNED WITH ENEMY START ---//
-
             for(class_enemy& emy : enemy_vec){
                 if(emy.hp <= 0){
                     emy.is_soldier_alive = false;
                 }
                 else if(emy.is_soldier_alive){
-                    emy.gravity_pull(delta_time);
                     emy.dist_base_attack_mode(window, bullet_vec,player.get_soldier_pos(),delta_time);
                     if(emy.emy_in_melee == true) player.hp -= (20.0f*delta_time);
                     emy.display_troop_gun(window);
                 }
             }
-            // for(class_enemy& enemy : enemy_vec){ // loop to render enemy
-            //     if (enemy.is_soldier_alive) enemy.display_troop_gun(window);
-            // }
             //---CODE CONCERNED WITH ENEMY END ---//
-            for(class_enemy& emy : enemy_vec){
 
-                //---terrain check for emy and plyr start---//
+            //---terrain check for emy and plyr start---//
+            for(class_enemy& emy : enemy_vec){
                 for(char i = 0; i<=10; i++) {
                     map_arr[i].collision_with_soldier(player,delta_time);
                     map_arr[i].collision_with_soldier(emy,delta_time);
                 }
-                //---terrain check for emy and plyr start---//
+            }
+            //---terrain check for emy and plyr end---//
 
+            //---CODE CHECKING BULLET HITS START---//
+            for(class_enemy& emy : enemy_vec){
                 for(bullet& bullet : bullet_vec){
                     if(emy.get_hitbox().findIntersection(bullet.get_hitbox())){
                         bullet.did_it_hit = true;
@@ -182,7 +176,6 @@ int main(){
                     // else if((bullet.bullet_pos().y > 1000.0f || bullet.bullet_pos().y > -1000.0f ) || (bullet.bullet_pos().x > 2000.0f || bullet.bullet_pos().x < -2000.0f)) bullet.did_it_hit = true; // casuing issues, somehow when this was running,no one, neither player nor enemy could fire
                 }
             }
-            //---CODE CHECKING BULLET HITS START---//
             for(auto& a_bullet : bullet_vec ){
                 a_bullet.render_bullet(window, delta_time);
             }

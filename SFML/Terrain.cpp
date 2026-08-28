@@ -11,7 +11,12 @@ Terrain::Terrain(float x, float y, float length,float height){
 }
 void Terrain::collision_with_soldier(base_soldier& soldier,float delta_time){
     if(soldier.get_hitbox().findIntersection(base.getGlobalBounds())){
-        soldier.move_pos({0,-1000*delta_time});
+        soldier.move_pos({0,-10*delta_time});
+        // soldier.on_ground = 1;
+    }
+    else {
+        soldier.gravity_pull(delta_time);
+        // soldier.on_ground = 0;
     }
 }
 void Terrain::display_terrain(RenderWindow &win){
