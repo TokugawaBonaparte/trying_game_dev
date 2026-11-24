@@ -18,7 +18,7 @@ class bullet{
             bullet_body.setOrigin({1.0f,1.0f});
             
         }bool did_it_hit = false;
-        //rendering bullet
+        //rendering bullet`
         void render_bullet(RenderWindow &window,float delta_time){
             velocity.y -= (100.0f * delta_time);
             window.draw(bullet_body);

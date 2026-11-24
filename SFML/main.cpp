@@ -11,6 +11,7 @@
 using namespace std;
 using namespace sf;
 int main(){
+    float plyr_hp;
     bool entity_alive = true; // TEMPO
     // Texture battle_background_loading("assets\\background.png");
     // Sprite battle_background(battle_background_loading);    
@@ -27,6 +28,7 @@ int main(){
     main_menu_song.setLooping(true);
     main_menu_song.setVolume(50.0f);
     main_menu_song.play();
+
 
 
     Font font("assets\\font\\adler\\adler.ttf");
@@ -61,10 +63,10 @@ int main(){
     vector<class_enemy> enemy_vec; // for enemeies
 
     while(window.isOpen()){
+
         Time delta_elapsed_time = delta_clock.restart();
         delta_time = delta_elapsed_time.asSeconds();
-        // if(enemy_1.hp <= 0) emy_is_alive = false;
-        if(player.hp <= 0) player.is_soldier_alive = false;        
+             
         while(const optional<Event> event = window.pollEvent()){
              /*runs until there is input from user     
              waits for the OS's input so very slow for repeted things.
@@ -72,16 +74,11 @@ int main(){
                 seeing the map, opening the menu etc.  */
             if (event -> is<Event::Closed>()){
                 window.close();
-                }  
-            // if((Mouse::isButtonPressed(Mouse::Button::Right)) && (player.soldier_body_colour() == Color::Green)){
-            //     player.melee();
-            //     for(auto& enemy : enemy_vec){
-            //         if((abs(player.get_soldier_pos().x - enemy.get_soldier_pos().x) <= 21 && abs(player.get_soldier_pos().y - enemy.get_soldier_pos().y) < 10.0f) && (enemy.hp > 0.0f)){  // checking y axis to only kill the enemy in close proxmity, with a small difference for flexibility. 
-            //             enemy.hp-= (50.0f);
-            //         }
-            //     }
-            // }    
-        }   
+            }  
+            if(Keyboard::isKeyPressed(Keyboard::Key::Space)){
+                    player.v_Y -= 300*delta_time;
+            }
+        }
 
     window.clear(); // IMP.
     switch(current_status){
@@ -97,14 +94,14 @@ int main(){
                 Vector2f pos_on_creation = {1000,580};
                 for(char enemies = 1; enemies <= 5 ; enemies ++ ){
                     enemy_vec.emplace_back(class_enemy ({pos_on_creation}));
-                    pos_on_creation.x += 600;
+                    pos_on_creation.x += 620;
                 }
 
                 // end of enemy creation loop
 
                 current_status = Battle;
                 player.hp = 100.0f;
-
+                plyr_hp = 100.0f;
                 // map creation start //
                 map_arr.emplace_back( Terrain (20,600,980,100));
                 float xaxis_platforms = 1000.0f; 
@@ -114,8 +111,8 @@ int main(){
                         xaxis_platforms += 580;
                     }
                     else { // explicit way to create object
-                        Terrain body({xaxis_platforms,630.0f,20.0f,10.0f});
-                        xaxis_platforms += 20;
+                        Terrain body({xaxis_platforms,630.0f,40.0f,10.0f});
+                        xaxis_platforms += 40;
                         map_arr.push_back(body); // push_back bcs object exsists
                     }
                     // the 2 ways to create object shown above are just for fun and educational purpouse.
@@ -125,7 +122,7 @@ int main(){
                 battle_song.play();
             }    
             break;
-        case Battle:
+        case Battle:        
             main_menu_song.stop();
 
             for(char i = 0; i<=10; i++) map_arr[i].display_terrain(window);
@@ -136,6 +133,8 @@ int main(){
             if(player.is_soldier_alive){
                 player.plr_mov(delta_time);
                 player.fire_player(delta_time, window, bullet_vec);
+                player.melee(enemy_vec);
+                player.reset_melee_colour();
                 player.display_soldier(window);  
             }      
             //---CODE CONCERNED WITH PLAYER END---//
@@ -143,11 +142,15 @@ int main(){
             //---CODE CONCERNED WITH ENEMY START ---//
             for(class_enemy& emy : enemy_vec){
                 if(emy.hp <= 0){
-                    emy.is_soldier_alive = false;
+                    emy.is_soldier_alive = 0;
                 }
                 else if(emy.is_soldier_alive){
                     emy.dist_base_attack_mode(window, bullet_vec,player.get_soldier_pos(),delta_time);
-                    if(emy.emy_in_melee == true) player.hp -= (20.0f*delta_time);
+                    // if(emy.emy_in_melee == true) player.hp -= (20.0f*delta_time);
+                    if(emy.emy_in_melee)
+                    {
+                        player.hp = emy.enemy_melee(plyr_hp);
+                    }
                     emy.display_troop_gun(window);
                 }
             }
@@ -167,11 +170,11 @@ int main(){
                 for(bullet& bullet : bullet_vec){
                     if(emy.get_hitbox().findIntersection(bullet.get_hitbox())){
                         bullet.did_it_hit = true;
-                        emy.hp -= (20.0f); 
+                        emy.hp -= 20.0f; 
                     }
                     if( player.get_hitbox().findIntersection(bullet.get_hitbox())){ // need to worry about this logic when allies are added
                         bullet.did_it_hit = true;
-                        player.hp -=(5.0f); // bcs damage is recorded 4 times per hit
+                        player.hp -= 1.0f; // bcs damage is recorded 4 times per hit
                     }
                     // else if((bullet.bullet_pos().y > 1000.0f || bullet.bullet_pos().y > -1000.0f ) || (bullet.bullet_pos().x > 2000.0f || bullet.bullet_pos().x < -2000.0f)) bullet.did_it_hit = true; // casuing issues, somehow when this was running,no one, neither player nor enemy could fire
                 }
