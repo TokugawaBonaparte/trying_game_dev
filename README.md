@@ -3,7 +3,11 @@ A Gane without Commerical Game Engines like Godot or Unity.
 Languages - C ++ 
 Avanti Savoia is a 2D FPS shooter set in the Austro-Italian front during the WW1 from the POV of an Ardito-Fiamme Nere.
 
-2)Controls:
+2) How to play:
+1-clone the repository on your device
+2-just double click on the "main.exe"
+
+3)Controls:
 W -> Move forward
 S -> Move backward
 Right Shift + (W/S) -> Move faster forward / backward
@@ -14,7 +18,7 @@ When you get in melee mode :
     left click -> Attack with dagger (dagger causes more damage)
     right click -> Escape melee mode
     
-3)Melee Mechanic:
+4)Melee Mechanic:
 There's a colour scheme in place of art to help distinguish between different phases/ stages/ modes of the player (ardito):
     a) player holding a rifle (normal mode) -> green
     b) player in melee and holding a dagger (melee mode) -> blue
