@@ -5,7 +5,8 @@ Avanti Savoia is a 2D FPS shooter set in the Austro-Italian front during the WW1
 
 2) How to play:
 1-clone the repository on your device
-2-just double click on the "main.exe"
+2-just double click on "main.exe"
+if windows shows a pop up, click on "more infi" and "run anywa""
 
 3)Controls:
 W -> Move forward
